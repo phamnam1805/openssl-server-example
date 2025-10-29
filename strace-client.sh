@@ -1,0 +1,1 @@
+strace -e trace=read,write -s 64 openssl s_client -connect localhost:4443 -cert ./certs/client-cert.pem -key ./certs/client-key.pem -msg

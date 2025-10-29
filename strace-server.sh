@@ -1,0 +1,1 @@
+strace -e trace=read,write -s 64 openssl s_server -accept 4443 -cert ./certs/server-cert.pem -key ./certs/server-key.pem -msg
