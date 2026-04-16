@@ -14,10 +14,10 @@ openssl req -nodes -new -x509 -keyout "$OUTPUT_DIR/ca-key.pem" -out "$OUTPUT_DIR
 # security policy in s2n-tls.
 # https://github.com/aws/s2n-tls/blob/main/docs/USAGE-GUIDE.md#chart-security-policy-version-to-supported-curvesgroups
 echo "generating server private key and CSR"
-openssl req  -new -nodes -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -keyout "$OUTPUT_DIR/server-key.pem" -out "$OUTPUT_DIR/server.csr" -config config/server.cnf
+openssl req -new -nodes -newkey rsa:2048 -keyout "$OUTPUT_DIR/server-key.pem" -out "$OUTPUT_DIR/server.csr" -config config/server.cnf
 
 echo "generating client private key and CSR"
-openssl req  -new -nodes -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -keyout "$OUTPUT_DIR/client-key.pem" -out "$OUTPUT_DIR/client.csr" -config config/client.cnf
+openssl req -new -nodes -newkey rsa:2048 -keyout "$OUTPUT_DIR/client-key.pem" -out "$OUTPUT_DIR/client.csr" -config config/client.cnf
 
 echo "generating server certificate and signing it"
 openssl x509 -days 65536 -req -in "$OUTPUT_DIR/server.csr" -CA "$OUTPUT_DIR/ca-cert.pem" -CAkey "$OUTPUT_DIR/ca-key.pem" -CAcreateserial -out "$OUTPUT_DIR/server-cert.pem" -extensions req_ext -extfile config/server.cnf
@@ -35,4 +35,4 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in "$OUTPUT_DIR/server-k
 echo "cleaning up temporary files"
 rm "$OUTPUT_DIR/server.csr"
 rm "$OUTPUT_DIR/client.csr"
-rm "$OUTPUT_DIR/ca-key.pem"
+# rm "$OUTPUT_DIR/ca-key.pem"
